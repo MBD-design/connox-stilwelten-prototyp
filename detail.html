@@ -1,0 +1,769 @@
+<title>Bauhaus Stilwelt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0d;
+    --surface:#151519;
+    --surface-2:#1b1c22;
+    --edge:rgba(255,255,255,0.09);
+    --edge-strong:rgba(255,255,255,0.2);
+    --text:#f3f1ea;
+    --text-muted:#9c988e;
+    --text-faint:#6b675e;
+    --accent:#8a7350;
+    --accent-ink:#f8f3e9;
+    --mood-bg:#12172a;
+    --mood-text:#f3f1ea;
+    --mood-sub:#a9b0cc;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Manrope", "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ text-wrap:balance; margin:0; }
+  a{ color:inherit; }
+
+  .back{
+    position:absolute; top:20px; left:20px; z-index:5;
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; color:#e4e1d8;
+    background:rgba(0,0,0,0.28);
+    border:1px solid rgba(255,255,255,0.18);
+    padding:8px 14px; border-radius:999px;
+    text-decoration:none;
+    backdrop-filter: blur(6px);
+  }
+
+  .hero{
+    position:relative;
+    min-height: 380px;
+    background: var(--mood-bg);
+    display:flex; align-items:flex-end;
+    padding: 20px;
+    padding-top: clamp(64px, 12vw, 96px);
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-size:cover;
+    background-position:center;
+    opacity:0;
+    transition: opacity 620ms ease;
+  }
+  .hero-bg.on{ opacity:1; }
+  .hero-scrim{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(10,12,20,0.15) 0%, rgba(10,12,20,0.35) 45%, rgba(10,12,20,0.92) 100%);
+  }
+  .hero-inner{
+    position:relative; z-index:1;
+    max-width:1080px; margin-inline:auto; width:100%;
+    padding-bottom: 26px;
+  }
+  .hero-kicker{
+    font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase;
+    color:#e8caa0; font-style:italic; font-weight:600;
+  }
+  .hero-title{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:500;
+    font-size: clamp(32px, 6vw, 56px);
+    color:#fff;
+    margin-top:6px;
+  }
+  .hero-sub{
+    font-size:14.5px; line-height:1.55;
+    color:#cfcedd;
+    margin-top:10px;
+    max-width:540px;
+  }
+
+  .tabbar{
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index:10;
+    background: rgba(11,11,13,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--edge);
+  }
+  .tabbar-inner{
+    max-width:1080px; margin-inline:auto;
+    display:flex;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding-inline:20px;
+  }
+  .tabbar-inner::-webkit-scrollbar{ display:none; }
+  .tab-btn{
+    appearance:none; border:none; background:none; cursor:pointer;
+    font-family:inherit; color:var(--text-muted);
+    font-size:13.5px; font-weight:600;
+    padding:16px 4px;
+    margin-right:26px;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn.active{ color:var(--text); border-color: var(--accent); }
+
+  .panel{ display:none; max-width:1080px; margin:0 auto; padding: 32px 20px 64px; }
+  .panel.active{ display:block; }
+
+  .section-head{ margin-bottom:18px; }
+  .section-eyebrow{
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--accent); font-weight:600;
+  }
+  .section-title{
+    font-family:"Fraunces", Georgia, serif; font-weight:500;
+    font-size: clamp(20px, 3vw, 26px);
+    margin-top:4px;
+  }
+  .section-text{
+    font-size:14px; line-height:1.65; color:var(--text-muted);
+    max-width:640px; margin-top:8px;
+  }
+
+  /* Style Inspo */
+  .podcast-strip{
+    display:flex; align-items:center; gap:14px;
+    background: var(--surface-2);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:14px 18px;
+    max-width:520px;
+    margin-bottom:28px;
+  }
+  .podcast-icon{
+    width:38px; height:38px; border-radius:50%;
+    background: var(--accent); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-size:16px;
+  }
+  .podcast-label{ font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); font-weight:700; }
+  .podcast-title{ font-family:"Fraunces", Georgia, serif; font-size:15px; margin-top:2px; }
+  .podcast-sub{ font-size:12px; color:var(--text-faint); margin-top:2px; }
+
+  .showroom-rail{
+    display:flex;
+    gap:10px;
+    align-items:stretch;
+    height: min(58vw, 420px);
+  }
+  .showroom{
+    position:relative;
+    border-radius:18px;
+    overflow:hidden;
+    background-size:cover;
+    background-position:center;
+    border:1px solid var(--edge);
+    cursor:pointer;
+    flex: 0 1 64px;
+    will-change: flex-grow, flex-basis;
+    transition: flex-grow 620ms cubic-bezier(.16,.8,.2,1), flex-basis 620ms cubic-bezier(.16,.8,.2,1), border-color 260ms ease;
+  }
+  .showroom.active{
+    flex: 8 1 0%;
+    cursor:default;
+    border-color: var(--edge-strong);
+  }
+  .showroom:not(.active):hover{ border-color: var(--edge-strong); }
+  .showroom-scrim{
+    position:absolute; inset:0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 35%);
+    opacity:0;
+    transition: opacity 420ms ease 160ms;
+  }
+  .showroom.active .showroom-scrim{ opacity:1; }
+  .showroom-thumb-tint{
+    position:absolute; inset:0;
+    background: rgba(6,7,10,0.45);
+    transition: opacity 320ms ease;
+  }
+  .showroom.active .showroom-thumb-tint{ opacity:0; }
+  .showroom-hotspots{
+    position:absolute; inset:0;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 320ms ease 380ms;
+  }
+  .showroom.active .showroom-hotspots{ opacity:1; pointer-events:auto; }
+  .hotspot{
+    position:absolute;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid rgba(0,0,0,0.35);
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.22);
+    cursor:pointer;
+    transform: translate(-50%,-50%);
+  }
+  .hotspot::after{
+    content:"";
+    position:absolute; inset:-8px;
+    border-radius:50%;
+  }
+  .hotspot-card{
+    position:absolute;
+    background:#fff;
+    color:#1a1a1a;
+    border-radius:10px;
+    padding:10px 12px;
+    width:168px;
+    font-size:12px;
+    line-height:1.4;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    opacity:0; pointer-events:none;
+    transform: translateY(4px);
+    transition: opacity 160ms ease, transform 160ms ease;
+    z-index:3;
+  }
+  .hotspot-card.open{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .hotspot-card .hc-name{ font-weight:700; font-family:"Fraunces", Georgia, serif; font-size:13.5px; }
+  .hotspot-card .hc-price{ color:#7a6a4a; font-size:11.5px; margin-top:2px; }
+  .hotspot-card .hc-link{ display:inline-block; margin-top:6px; font-size:11px; font-weight:700; color:#8a7350; text-decoration:none; }
+
+  .testimonials{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:14px;
+    margin-top:28px;
+  }
+  @media (max-width:640px){ .testimonials{ grid-template-columns:1fr; } }
+  .testimonial{
+    background:var(--surface); border:1px solid var(--edge); border-radius:14px;
+    padding:18px;
+  }
+  .testimonial-quote{
+    font-family:"Fraunces", Georgia, serif; font-size:15.5px; line-height:1.45;
+    font-style:italic;
+  }
+  .testimonial-quote::before{ content:"\201C"; }
+  .testimonial-quote::after{ content:"\201D"; }
+  .testimonial-who{ font-size:12px; color:var(--text-faint); margin-top:10px; }
+
+  /* Marken */
+  .brand-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+  }
+  @media (max-width:760px){ .brand-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width:480px){ .brand-grid{ grid-template-columns: 1fr; } }
+  .brand-card{
+    background:var(--surface); border:1px solid var(--edge); border-radius:14px;
+    padding:20px;
+  }
+  .brand-name{ font-family:"Fraunces", Georgia, serif; font-size:18px; }
+  .brand-desc{ font-size:12.8px; line-height:1.55; color:var(--text-muted); margin-top:8px; }
+  .brand-link{ display:inline-block; margin-top:12px; font-size:12px; font-weight:700; color:var(--accent); text-decoration:none; }
+
+  /* Portrait */
+  .portrait-banner{
+    position:relative;
+    height:220px;
+    border-radius:18px;
+    overflow:hidden;
+    background-image:url(bauhaus.webp);
+    background-size:cover;
+    background-position:center 30%;
+    margin-bottom:28px;
+    filter: grayscale(0.25) contrast(1.05);
+  }
+  .portrait-banner-tint{
+    position:absolute; inset:0;
+    background: linear-gradient(115deg, rgba(18,23,42,0.88) 0%, rgba(18,23,42,0.42) 55%, rgba(18,23,42,0.1) 100%);
+  }
+  .portrait-banner-quote{
+    position:absolute; left:24px; right:24px; bottom:20px; top:20px;
+    display:flex; align-items:flex-end;
+  }
+  .portrait-banner-quote p{
+    font-family:"Fraunces", Georgia, serif;
+    font-style:italic;
+    font-size: clamp(18px, 2.6vw, 26px);
+    color:#fff;
+    max-width:520px;
+    line-height:1.35;
+  }
+  .portrait-banner-quote span{
+    display:block;
+    font-family:"Manrope", sans-serif;
+    font-style:normal;
+    font-size:11.5px;
+    color:#cfcedd;
+    margin-top:10px;
+    letter-spacing:0.04em;
+  }
+
+  .portrait{ display:flex; gap:28px; flex-wrap:wrap; align-items:flex-start; }
+  .portrait-text{ flex:1 1 340px; font-size:14px; line-height:1.75; color:var(--text-muted); }
+  .portrait-text h3{
+    font-family:"Fraunces", Georgia, serif; font-weight:500; font-size:15.5px;
+    color:var(--text); margin:22px 0 8px;
+  }
+  .portrait-text h3:first-child{ margin-top:0; }
+  .portrait-text p{ margin:0 0 14px; }
+  .portrait-facts{
+    flex:0 0 220px;
+    background:var(--surface); border:1px solid var(--edge); border-radius:14px;
+    padding:18px;
+  }
+  .fact{ display:flex; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid var(--edge); font-size:12.5px; }
+  .fact:last-child{ border-bottom:none; }
+  .fact-k{ color:var(--text-faint); }
+  .fact-v{ color:var(--text); font-weight:600; text-align:right; }
+
+  .timeline{
+    margin-top:32px;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:14px;
+  }
+  @media (max-width:700px){ .timeline{ grid-template-columns: repeat(2, 1fr); } }
+  .timeline-item{
+    position:relative;
+    padding-top:18px;
+  }
+  .timeline-item::before{
+    content:"";
+    position:absolute; top:0; left:0;
+    width:100%; height:2px;
+    background: var(--edge-strong);
+  }
+  .timeline-item::after{
+    content:"";
+    position:absolute; top:-4px; left:0;
+    width:10px; height:10px; border-radius:50%;
+    background: var(--accent);
+  }
+  .timeline-year{ font-size:12px; font-weight:700; color:var(--accent); }
+  .timeline-label{ font-size:12.5px; color:var(--text-muted); margin-top:4px; line-height:1.4; }
+
+  .icon-row{
+    display:flex; flex-wrap:wrap; gap:12px;
+    margin-top:20px;
+  }
+  .icon-chip{
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface); border:1px solid var(--edge); border-radius:999px;
+    padding:6px 14px 6px 6px;
+    text-decoration:none;
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+  .icon-chip:hover{ border-color:var(--edge-strong); transform:translateY(-1px); }
+  .icon-chip-media{
+    width:34px; height:34px; border-radius:50%;
+    background-size:cover; background-position:center;
+    flex-shrink:0;
+    border:1px solid var(--edge-strong);
+  }
+  .icon-chip-text{ line-height:1.25; }
+  .icon-chip-name{ font-size:12px; font-weight:600; color:var(--text); }
+  .icon-chip-price{ font-size:11px; color:var(--text-faint); }
+
+  /* Produkte */
+  .filter-row{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-bottom:20px;
+  }
+  .filter-chip{
+    appearance:none; border:1px solid var(--edge); background:var(--surface);
+    color:var(--text-muted);
+    font-family:inherit; font-size:12.5px; font-weight:600;
+    padding:8px 16px; border-radius:999px; cursor:pointer;
+    transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+  }
+  .filter-chip:hover{ color:var(--text); border-color:var(--edge-strong); }
+  .filter-chip.active{
+    background:var(--accent); border-color:var(--accent); color:var(--accent-ink);
+  }
+
+  .product-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:14px;
+  }
+  @media (max-width:760px){ .product-grid{ grid-template-columns: repeat(2, 1fr); } }
+  .product-card{
+    background:var(--surface); border:1px solid var(--edge); border-radius:14px;
+    overflow:hidden;
+  }
+  .product-media{
+    height:140px; background-size:cover; background-position:center;
+  }
+  .product-body{ padding:12px 14px 14px; }
+  .product-name{ font-size:13px; font-weight:600; }
+  .product-cat{ font-size:11px; color:var(--text-faint); margin-top:2px; }
+  .product-price{ font-size:12.5px; color:var(--accent); font-weight:700; margin-top:8px; }
+
+  /* Beratung */
+  .consult{
+    background: linear-gradient(155deg, var(--surface-2), var(--surface));
+    border:1px solid var(--edge);
+    border-radius:18px;
+    padding: 32px 28px;
+    display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .consult-text{ max-width:520px; }
+  .consult-title{ font-family:"Fraunces", Georgia, serif; font-size:22px; }
+  .consult-sub{ font-size:13.5px; color:var(--text-muted); margin-top:8px; line-height:1.6; }
+  .consult-note{ font-size:11.5px; color:var(--text-faint); margin-top:10px; }
+  .consult-btn{
+    appearance:none; border:none; cursor:pointer;
+    background: var(--accent); color: var(--accent-ink);
+    font-family:inherit; font-weight:600; font-size:14px;
+    padding:14px 24px; border-radius:999px;
+    white-space:nowrap;
+  }
+</style>
+
+<a class="back" href="grid.html">← Alle Stile</a>
+
+<section class="hero">
+  <div class="hero-bg on" id="heroBgA" style="background-image:url(bauhaus.webp);"></div>
+  <div class="hero-bg" id="heroBgB"></div>
+  <div class="hero-scrim"></div>
+  <div class="hero-inner">
+    <p class="hero-kicker">Stil des Monats</p>
+    <h1 class="hero-title">Bauhaus</h1>
+    <p class="hero-sub">Klare Linien, Stahlrohr, Funktion vor Ornament. Die radikale Formsprache der Bauhaus-Schule – zeitlos, kompromisslos, bis heute prägend.</p>
+  </div>
+</section>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" id="tabbar"></div>
+</nav>
+
+<section class="panel active" id="panel-inspo">
+  <div class="podcast-strip">
+    <div class="podcast-icon">▶</div>
+    <div>
+      <p class="podcast-label">Nur diesen Monat</p>
+      <p class="podcast-title">Podcast: 100 Jahre Bauhaus-Erbe</p>
+      <p class="podcast-sub">Folge 12 · mit einer Kuratorin des Bauhaus-Archivs</p>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <p class="section-eyebrow">Style Inspo</p>
+    <h2 class="section-title">Shop the Look</h2>
+    <p class="section-text">Drei reale Bauhaus-Interieurs von Connox – wähle ein Bild und tippe auf die Punkte, um die einzelnen Stücke zu entdecken.</p>
+  </div>
+
+  <div class="showroom-rail" id="showroomRail"></div>
+
+  <div class="testimonials">
+    <div class="testimonial">
+      <p class="testimonial-quote">Bauhaus-Möbel sind für mich das Gegenteil von Trend – sie werden seit hundert Jahren gebaut, weil sie einfach richtig sind.</p>
+      <p class="testimonial-who">— Interior-Sammlerin, Köln</p>
+    </div>
+    <div class="testimonial">
+      <p class="testimonial-quote">Ein Freischwinger im Raum verändert sofort, wie ernst man das Gesamtkonzept nimmt.</p>
+      <p class="testimonial-who">— Design-Berater, München</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-produkte">
+  <div class="section-head">
+    <p class="section-eyebrow">Produkte</p>
+    <h2 class="section-title">Bauhaus im Shop</h2>
+    <p class="section-text">Alle Produkte, die zu diesem Stil passen.</p>
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<section class="panel" id="panel-portrait">
+  <div class="section-head">
+    <p class="section-eyebrow">Background Infos</p>
+    <h2 class="section-title">Porträt: Bauhaus</h2>
+  </div>
+
+  <div class="portrait-banner">
+    <div class="portrait-banner-tint"></div>
+    <div class="portrait-banner-quote">
+      <p>Kunst und Technik – eine neue Einheit.
+        <span>Walter Gropius, Bauhaus-Manifest, 1919</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="icon-row" id="portraitIcons"></div>
+
+  <div class="portrait">
+    <div class="portrait-text">
+      <h3>Ursprung</h3>
+      <p>1919 gründete Walter Gropius in Weimar die Bauhaus-Schule – mit dem Anspruch, Kunst, Handwerk und Industrie zu vereinen. Aus dieser Idee entstand eine radikal neue Formsprache: klare Geometrie statt Ornament, Funktion vor Dekor.</p>
+
+      <h3>Formensprache</h3>
+      <p>Stahlrohr wurde zum Signaturmaterial der Bewegung – leicht, industriell fertigbar und formal kompromisslos. Marcel Breuers Freischwinger gilt bis heute als eines der einflussreichsten Möbelstücke des 20. Jahrhunderts. Kreis, Quadrat und Dreieck wurden zu Grundformen erhoben, Farbe wurde reduziert auf Rot, Gelb und Blau als Primärfarben der Lehre.</p>
+
+      <h3>Vermächtnis</h3>
+      <p>Nach der Schließung 1933 verbreiteten emigrierte Bauhaus-Lehrer wie Mies van der Rohe und Marcel Breuer die Prinzipien weltweit – in Chicago, Harvard und darüber hinaus. Ihr Einfluss prägt Architektur, Produktdesign und Ausbildung bis in die Gegenwart, weit über die 14 Jahre hinaus, in denen die Schule selbst bestand.</p>
+    </div>
+    <div class="portrait-facts">
+      <div class="fact"><span class="fact-k">Gegründet</span><span class="fact-v">1919, Weimar</span></div>
+      <div class="fact"><span class="fact-k">Gründer</span><span class="fact-v">Walter Gropius</span></div>
+      <div class="fact"><span class="fact-k">Leitmaterial</span><span class="fact-v">Stahlrohr</span></div>
+      <div class="fact"><span class="fact-k">Prinzip</span><span class="fact-v">Form follows function</span></div>
+      <div class="fact"><span class="fact-k">Primärfarben</span><span class="fact-v">Rot, Gelb, Blau</span></div>
+      <div class="fact"><span class="fact-k">Auflösung</span><span class="fact-v">1933, Berlin</span></div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <p class="timeline-year">1919</p>
+      <p class="timeline-label">Gründung in Weimar durch Walter Gropius</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-year">1925</p>
+      <p class="timeline-label">Umzug nach Dessau, ikonisches Schulgebäude entsteht</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-year">1933</p>
+      <p class="timeline-label">Schließung unter politischem Druck in Berlin</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-year">Heute</p>
+      <p class="timeline-label">Weltweite Referenz für zeitloses, funktionales Design</p>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-marken">
+  <div class="section-head">
+    <p class="section-eyebrow">Marken</p>
+    <h2 class="section-title">Wer den Stil prägt</h2>
+    <p class="section-text">Marken, die bei Connox für authentisches Bauhaus-Design stehen.</p>
+  </div>
+  <div class="brand-grid">
+    <div class="brand-card">
+      <p class="brand-name">Thonet</p>
+      <p class="brand-desc">Erfinder des Freischwingers – seit 1830 in Deutschland gefertigt, bis heute Referenz für Stahlrohrmöbel.</p>
+      <a class="brand-link" href="#">Marke entdecken →</a>
+    </div>
+    <div class="brand-card">
+      <p class="brand-name">Knoll</p>
+      <p class="brand-desc">Amerikanisches Traditionshaus mit engen Bauhaus-Wurzeln, u. a. durch Mies van der Rohe.</p>
+      <a class="brand-link" href="#">Marke entdecken →</a>
+    </div>
+    <div class="brand-card">
+      <p class="brand-name">Vitra</p>
+      <p class="brand-desc">Schweizer Möbelhersteller, bekannt für Reeditionen von Designklassikern der Moderne.</p>
+      <a class="brand-link" href="#">Marke entdecken →</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="panel-beratung">
+  <div class="section-head">
+    <p class="section-eyebrow">Beratung</p>
+    <h2 class="section-title">Persönliche Stilberatung</h2>
+  </div>
+  <div class="consult">
+    <div class="consult-text">
+      <p class="consult-title">Dein Raum, kuratiert von Experten</p>
+      <p class="consult-sub">Für Sammlerinnen und Sammler, die den Bauhaus-Look stimmig im eigenen Zuhause umsetzen wollen: 60 Minuten 1:1-Beratung mit unseren Interior-Expert:innen, inklusive individueller Produktauswahl.</p>
+      <p class="consult-note">Kostenpflichtiger Service · ab 149 €</p>
+    </div>
+    <button class="consult-btn">Beratungstermin anfragen</button>
+  </div>
+</section>
+
+<script>
+(function(){
+  var showrooms = [
+    {
+      id:"room1", img:"bauhaus.webp", active:true,
+      hotspots:[
+        { x:27, y:58, name:"Freischwinger S 35", price:"ab 890 €" },
+        { x:66, y:40, name:"Sekretär Schwarz", price:"ab 1.240 €" },
+        { x:47, y:74, name:"Marmor-Beistelltisch, rund", price:"ab 460 €" }
+      ]
+    },
+    {
+      id:"room2", img:"bauhaus2.jpg", active:false,
+      hotspots:[
+        { x:18, y:70, name:"Wassily-Sessel, Gelb", price:"ab 1.090 €" },
+        { x:78, y:68, name:"Wassily-Sessel, Gelb", price:"ab 1.090 €" },
+        { x:47, y:52, name:"Sideboard Nussbaum", price:"ab 1.480 €" }
+      ]
+    },
+    {
+      id:"room3", img:"bauhaus3.jpg", active:false,
+      hotspots:[
+        { x:16, y:65, name:"Slingsessel Schwarz", price:"ab 760 €" },
+        { x:42, y:78, name:"Glas-Couchtisch, Stahlrohr", price:"ab 540 €" },
+        { x:82, y:62, name:"Schreibtischstuhl Mesh", price:"ab 320 €" }
+      ]
+    }
+  ];
+  var activeRoomId = "room1";
+
+  var heroBgA = document.getElementById("heroBgA");
+  var heroBgB = document.getElementById("heroBgB");
+  var heroShowingA = true;
+  var railEl = document.getElementById("showroomRail");
+  var openHotspotCard = null;
+
+  function setHeroImage(url){
+    var showEl = heroShowingA ? heroBgB : heroBgA;
+    var hideEl = heroShowingA ? heroBgA : heroBgB;
+    showEl.style.backgroundImage = "url(" + url + ")";
+    showEl.classList.add("on");
+    hideEl.classList.remove("on");
+    heroShowingA = !heroShowingA;
+  }
+
+  function renderShowrooms(){
+    railEl.innerHTML = "";
+    showrooms.forEach(function(room){
+      var isActive = room.id === activeRoomId;
+      var box = document.createElement("div");
+      box.className = "showroom" + (isActive ? " active" : "");
+      box.style.backgroundImage = "url(" + room.img + ")";
+      box.setAttribute("data-room", room.id);
+
+      var hotspotsHtml = "";
+      room.hotspots.forEach(function(h, i){
+        var hid = room.id + "-" + i;
+        hotspotsHtml +=
+          '<div class="hotspot" style="left:' + h.x + '%; top:' + h.y + '%;" data-hid="' + hid + '"></div>' +
+          '<div class="hotspot-card" id="hc-' + hid + '" style="left:calc(' + h.x + '% + 14px); top:calc(' + h.y + '% - 10px);">' +
+            '<p class="hc-name">' + h.name + '</p>' +
+            '<p class="hc-price">' + h.price + '</p>' +
+            '<a class="hc-link" href="#">Zum Produkt →</a>' +
+          '</div>';
+      });
+
+      box.innerHTML =
+        '<div class="showroom-thumb-tint"></div>' +
+        '<div class="showroom-scrim"></div>' +
+        '<div class="showroom-hotspots">' + hotspotsHtml + '</div>';
+
+      box.addEventListener("click", function(e){
+        if (!isActive){
+          activeRoomId = room.id;
+          setHeroImage(room.img);
+          openHotspotCard = null;
+          renderShowrooms();
+        }
+      });
+      railEl.appendChild(box);
+    });
+
+    railEl.querySelectorAll(".hotspot").forEach(function(hs){
+      hs.addEventListener("click", function(e){
+        e.stopPropagation();
+        var hid = hs.getAttribute("data-hid");
+        var card = document.getElementById("hc-" + hid);
+        if (openHotspotCard && openHotspotCard !== card) openHotspotCard.classList.remove("open");
+        card.classList.toggle("open");
+        openHotspotCard = card.classList.contains("open") ? card : null;
+      });
+    });
+  }
+
+  renderShowrooms();
+
+  var tabs = [
+    { id:"inspo", label:"Shop the Look" },
+    { id:"produkte", label:"Produkte" },
+    { id:"portrait", label:"Background Infos" },
+    { id:"marken", label:"Marken" },
+    { id:"beratung", label:"Beratung" }
+  ];
+
+  var products = [
+    { name:"Freischwinger S 35", cat:"Sitzmöbel", price:"ab 890 €" },
+    { name:"Sekretär Schwarz", cat:"Aufbewahrung", price:"ab 1.240 €" },
+    { name:"Marmor-Beistelltisch", cat:"Tische", price:"ab 460 €" },
+    { name:"Stahlrohr-Leuchte", cat:"Beleuchtung", price:"ab 210 €" },
+    { name:"Vasenobjekt Schwarz", cat:"Accessoires", price:"ab 89 €" },
+    { name:"Wandregal Metall", cat:"Aufbewahrung", price:"ab 340 €" },
+    { name:"Teppich Geometrisch", cat:"Textilien", price:"ab 520 €" },
+    { name:"Esstisch Rund", cat:"Tische", price:"ab 1.680 €" }
+  ];
+
+  var tabbarEl = document.getElementById("tabbar");
+  tabs.forEach(function(t, i){
+    var btn = document.createElement("button");
+    btn.className = "tab-btn" + (i===0 ? " active" : "");
+    btn.textContent = t.label;
+    btn.setAttribute("data-tab", t.id);
+    btn.addEventListener("click", function(){ activateTab(t.id); });
+    tabbarEl.appendChild(btn);
+  });
+
+  function activateTab(id){
+    document.querySelectorAll(".tab-btn").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-tab") === id);
+    });
+    document.querySelectorAll(".panel").forEach(function(p){
+      p.classList.toggle("active", p.id === "panel-" + id);
+    });
+  }
+
+  var productGrid = document.getElementById("productGrid");
+  var filterRow = document.getElementById("filterRow");
+  var activeFilter = "alle";
+
+  function renderProducts(){
+    productGrid.innerHTML = "";
+    var list = activeFilter === "alle" ? products : products.filter(function(p){ return p.cat === activeFilter; });
+    list.forEach(function(p){
+      var card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML =
+        '<div class="product-media" style="background-image:url(bauhaus.webp)"></div>' +
+        '<div class="product-body">' +
+          '<p class="product-name">' + p.name + '</p>' +
+          '<p class="product-cat">' + p.cat + '</p>' +
+          '<p class="product-price">' + p.price + '</p>' +
+        '</div>';
+      productGrid.appendChild(card);
+    });
+  }
+
+  function renderFilters(){
+    var cats = ["alle"];
+    products.forEach(function(p){ if (cats.indexOf(p.cat) === -1) cats.push(p.cat); });
+    filterRow.innerHTML = "";
+    cats.forEach(function(c){
+      var chip = document.createElement("button");
+      chip.className = "filter-chip" + (c === activeFilter ? " active" : "");
+      chip.textContent = c === "alle" ? "Alle" : c;
+      chip.addEventListener("click", function(){
+        activeFilter = c;
+        renderFilters();
+        renderProducts();
+      });
+      filterRow.appendChild(chip);
+    });
+  }
+
+  renderFilters();
+  renderProducts();
+
+  var portraitIcons = document.getElementById("portraitIcons");
+  products.slice(0, 4).forEach(function(p){
+    var chip = document.createElement("a");
+    chip.className = "icon-chip";
+    chip.href = "#";
+    chip.innerHTML =
+      '<div class="icon-chip-media" style="background-image:url(bauhaus.webp)"></div>' +
+      '<div class="icon-chip-text">' +
+        '<p class="icon-chip-name">' + p.name + '</p>' +
+        '<p class="icon-chip-price">' + p.price + '</p>' +
+      '</div>';
+    portraitIcons.appendChild(chip);
+  });
+
+})();
+</script>

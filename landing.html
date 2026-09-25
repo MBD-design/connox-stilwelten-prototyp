@@ -1,0 +1,224 @@
+<title>Connox Home Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#17181b;
+    --ink-soft:#5c5c62;
+    --line:#e7e6e2;
+    --line-strong:#cfcecb;
+    --accent:#8a7350;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Manrope", "Segoe UI", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  h1,h2{ text-wrap:balance; margin:0; }
+
+  .trust-bar{
+    background:var(--ink); color:var(--bg);
+    text-align:center; font-size:11.5px; letter-spacing:0.03em;
+    padding:7px 16px;
+  }
+
+  header{
+    position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; gap:28px;
+    padding:16px 20px;
+  }
+  .logo{
+    font-family:"Fraunces", Georgia, serif;
+    font-size:21px; font-weight:500; letter-spacing:0.01em;
+    white-space:nowrap;
+  }
+  .nav{
+    display:flex; align-items:center; gap:22px;
+    flex:1;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav::-webkit-scrollbar{ display:none; }
+  .nav a{
+    font-size:13px; font-weight:600; color:var(--ink-soft);
+    white-space:nowrap;
+    padding:6px 0;
+    border-bottom:2px solid transparent;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+  .nav a:hover{ color:var(--ink); }
+  .nav a.highlight{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
+  .header-icons{
+    display:flex; align-items:center; gap:16px;
+    font-size:16px; color:var(--ink-soft);
+    flex-shrink:0;
+  }
+
+  .hero{
+    position:relative;
+    margin: 24px 20px 0;
+    max-width:1180px;
+    margin-inline:auto;
+    border-radius:18px;
+    overflow:hidden;
+    min-height: 360px;
+    display:flex; align-items:center;
+    background-image:url(bauhaus.webp);
+    background-size:cover;
+    background-position:center;
+  }
+  .hero-tint{
+    position:absolute; inset:0;
+    background: linear-gradient(100deg, rgba(15,16,20,0.82) 0%, rgba(15,16,20,0.5) 48%, rgba(15,16,20,0.12) 100%);
+  }
+  .hero-content{
+    position:relative; z-index:1;
+    padding: 20px clamp(24px, 5vw, 56px);
+    max-width:520px;
+  }
+  .hero-kicker{
+    font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase;
+    color:#e8caa0; font-weight:700;
+  }
+  .hero-title{
+    font-family:"Fraunces", Georgia, serif; font-weight:500;
+    font-size: clamp(28px, 4.6vw, 42px);
+    color:#fff;
+    margin-top:8px;
+    line-height:1.15;
+  }
+  .hero-sub{
+    font-size:14px; line-height:1.6; color:#e2e0da;
+    margin-top:12px;
+    max-width:420px;
+  }
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:20px;
+    background:#fff; color:#17181b;
+    font-weight:700; font-size:14px;
+    padding:13px 22px; border-radius:999px;
+  }
+
+  .cats{
+    max-width:1180px; margin:0 auto;
+    padding: 36px 20px 8px;
+    display:flex; gap:28px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .cats::-webkit-scrollbar{ display:none; }
+  .cat{
+    flex:0 0 auto;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    width:74px;
+  }
+  .cat-icon{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--bg);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+  }
+  .cat-label{ font-size:11px; text-align:center; color:var(--ink-soft); line-height:1.3; }
+
+  .section-strip{
+    max-width:1180px; margin:0 auto;
+    padding: 44px 20px 64px;
+  }
+  .section-strip h2{
+    font-family:"Fraunces", Georgia, serif; font-weight:500; font-size:20px;
+  }
+  .section-strip p{
+    font-size:13px; color:var(--ink-soft); margin-top:6px; max-width:460px; line-height:1.55;
+  }
+  .grid-teaser{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:14px;
+    margin-top:20px;
+  }
+  @media (max-width:760px){ .grid-teaser{ grid-template-columns: repeat(2, 1fr); } }
+  .teaser-card{
+    border-radius:14px; overflow:hidden;
+    border:1px solid var(--line);
+    height:150px;
+    background: linear-gradient(155deg, var(--line) 0%, var(--bg) 100%);
+  }
+</style>
+
+<div class="trust-bar">Gratis Versand ab 79 € · 60 Tage Rückgaberecht</div>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">connox</a>
+    <nav class="nav">
+      <a href="#">Möbel</a>
+      <a href="#">Beleuchtung</a>
+      <a href="#">Kochen &amp; Servieren</a>
+      <a href="#">Haushalt</a>
+      <a href="#">Outdoor</a>
+      <a href="#">Kinder</a>
+      <a href="#">Tierbedarf</a>
+      <a class="highlight" href="grid.html">Stilwelten</a>
+    </nav>
+    <div class="header-icons">
+      <span>Suche</span>
+      <span>Konto</span>
+      <span>Merkliste</span>
+      <span>Warenkorb</span>
+    </div>
+  </div>
+</header>
+
+<a class="hero" href="grid.html">
+  <div class="hero-tint"></div>
+  <div class="hero-content">
+    <p class="hero-kicker">Neu bei Connox</p>
+    <h1 class="hero-title">Deine Design-Welt wartet</h1>
+    <p class="hero-sub">Kuratierte Stilwelten für erlesenen Geschmack – von Bauhaus bis Japandi. Entdecke Produkte mit besonderem Design- und Sammlerwert.</p>
+    <span class="hero-cta">Stilwelten entdecken →</span>
+  </div>
+</a>
+
+<div class="cats">
+  <div class="cat"><div class="cat-icon">◧</div><p class="cat-label">Möbel</p></div>
+  <div class="cat"><div class="cat-icon">◐</div><p class="cat-label">Beleuchtung</p></div>
+  <div class="cat"><div class="cat-icon">▤</div><p class="cat-label">Kochen &amp; Servieren</p></div>
+  <div class="cat"><div class="cat-icon">▥</div><p class="cat-label">Haushalt</p></div>
+  <div class="cat"><div class="cat-icon">◔</div><p class="cat-label">Outdoor</p></div>
+  <div class="cat"><div class="cat-icon">◑</div><p class="cat-label">Kinder</p></div>
+  <div class="cat"><div class="cat-icon">◒</div><p class="cat-label">Tierbedarf</p></div>
+</div>
+
+<div class="section-strip">
+  <h2>Neuheiten &amp; Trends</h2>
+  <p>Platzhalter-Bereich der echten Connox-Startseite – für den Prototyp nicht weiter ausgestaltet.</p>
+  <div class="grid-teaser">
+    <div class="teaser-card"></div>
+    <div class="teaser-card"></div>
+    <div class="teaser-card"></div>
+    <div class="teaser-card"></div>
+  </div>
+</div>
