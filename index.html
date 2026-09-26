@@ -1,7 +1,7 @@
 <title>Connox Home Mock</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#ffffff;
@@ -9,16 +9,17 @@
     --ink-soft:#5c5c62;
     --line:#e7e6e2;
     --line-strong:#cfcecb;
+    --surface:#f6f5f2;
     --accent:#8a7350;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e;
+      --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e; --surface:#18181b;
     }
   }
   :root[data-theme="dark"]{
-    --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e;
+    --bg:#111113; --ink:#f4f3ef; --ink-soft:#a6a49c; --line:#2a2a2d; --line-strong:#3a3a3e; --surface:#18181b;
     color-scheme: dark;
   }
 
@@ -30,174 +31,244 @@
   }
   a{ color:inherit; text-decoration:none; }
   h1,h2{ text-wrap:balance; margin:0; }
+  img{ max-width:100%; display:block; }
 
   .trust-bar{
     background:var(--ink); color:var(--bg);
-    text-align:center; font-size:11.5px; letter-spacing:0.03em;
-    padding:7px 16px;
+    font-size:11.5px; letter-spacing:0.02em; font-weight:600;
+    padding:8px 20px;
+    display:flex; justify-content:center; gap:40px;
+    overflow-x:auto;
+    scrollbar-width:none;
   }
+  .trust-bar::-webkit-scrollbar{ display:none; }
+  .trust-bar span{ white-space:nowrap; }
 
   header{
     position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
     background:var(--bg);
     border-bottom:1px solid var(--line);
   }
-  .header-inner{
-    max-width:1180px; margin:0 auto;
+  .header-top{
+    max-width:1280px; margin:0 auto;
     display:flex; align-items:center; gap:28px;
-    padding:16px 20px;
+    padding:18px 20px 14px;
   }
   .logo{
-    font-family:"Fraunces", Georgia, serif;
-    font-size:21px; font-weight:500; letter-spacing:0.01em;
+    font-size:22px; font-weight:800; letter-spacing:-0.01em;
     white-space:nowrap;
   }
-  .nav{
-    display:flex; align-items:center; gap:22px;
-    flex:1;
+  .search-bar{
+    flex:1; max-width:520px;
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:999px;
+    padding:9px 16px;
+    font-size:12.5px; color:var(--ink-soft);
+    margin-inline:auto;
+  }
+  .header-icons{
+    display:flex; align-items:center; gap:20px;
+    font-size:11.5px; font-weight:600; color:var(--ink-soft);
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .header-icons .ic{ font-size:16px; }
+  .header-nav{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:26px;
+    padding:0 20px 14px;
     overflow-x:auto;
     scrollbar-width:none;
   }
-  .nav::-webkit-scrollbar{ display:none; }
-  .nav a{
-    font-size:13px; font-weight:600; color:var(--ink-soft);
+  .header-nav::-webkit-scrollbar{ display:none; }
+  .header-nav a{
+    font-size:13px; font-weight:600; color:var(--ink);
     white-space:nowrap;
-    padding:6px 0;
+    padding-bottom:3px;
     border-bottom:2px solid transparent;
     transition: color 160ms ease, border-color 160ms ease;
   }
-  .nav a:hover{ color:var(--ink); }
-  .nav a.highlight{
+  .header-nav a:hover{ color:var(--accent); }
+  .header-nav a.highlight{
     color:var(--accent);
     border-color:var(--accent);
+    font-weight:700;
   }
-  .header-icons{
-    display:flex; align-items:center; gap:16px;
-    font-size:16px; color:var(--ink-soft);
-    flex-shrink:0;
-  }
+  .header-nav .divider{ width:1px; height:16px; background:var(--line-strong); flex-shrink:0; }
 
   .hero{
     position:relative;
-    margin: 24px 20px 0;
-    max-width:1180px;
+    margin: 20px 20px 0;
+    max-width:1280px;
     margin-inline:auto;
-    border-radius:18px;
+    border-radius:4px;
     overflow:hidden;
-    min-height: 360px;
-    display:flex; align-items:center;
+    min-height: 420px;
     background-image:url(bauhaus.webp);
     background-size:cover;
     background-position:center;
+    display:flex; align-items:flex-end;
   }
-  .hero-tint{
-    position:absolute; inset:0;
-    background: linear-gradient(100deg, rgba(15,16,20,0.82) 0%, rgba(15,16,20,0.5) 48%, rgba(15,16,20,0.12) 100%);
-  }
-  .hero-content{
+  .hero-card{
     position:relative; z-index:1;
-    padding: 20px clamp(24px, 5vw, 56px);
-    max-width:520px;
+    background:#fff; color:#17181b;
+    border-radius:6px;
+    margin: 24px;
+    padding: 28px 30px;
+    max-width:340px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
   }
   .hero-kicker{
-    font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase;
-    color:#e8caa0; font-weight:700;
+    font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--accent); font-weight:700;
   }
   .hero-title{
-    font-family:"Fraunces", Georgia, serif; font-weight:500;
-    font-size: clamp(28px, 4.6vw, 42px);
-    color:#fff;
+    font-weight:800; letter-spacing:-0.01em;
+    font-size: clamp(24px, 3vw, 30px);
     margin-top:8px;
-    line-height:1.15;
+    line-height:1.1;
   }
   .hero-sub{
-    font-size:14px; line-height:1.6; color:#e2e0da;
-    margin-top:12px;
-    max-width:420px;
+    font-size:13px; line-height:1.55; color:#555;
+    margin-top:10px;
+    max-width:280px;
   }
   .hero-cta{
-    display:inline-flex; align-items:center; gap:8px;
-    margin-top:20px;
-    background:#fff; color:#17181b;
-    font-weight:700; font-size:14px;
-    padding:13px 22px; border-radius:999px;
+    display:inline-block;
+    margin-top:16px;
+    font-weight:700; font-size:13px;
+    text-decoration:underline;
+    text-underline-offset:3px;
   }
 
   .cats{
-    max-width:1180px; margin:0 auto;
-    padding: 36px 20px 8px;
-    display:flex; gap:28px;
+    max-width:1280px; margin:0 auto;
+    padding: 30px 20px 4px;
+    display:flex; gap:30px;
     overflow-x:auto;
     scrollbar-width:none;
   }
   .cats::-webkit-scrollbar{ display:none; }
   .cat{
     flex:0 0 auto;
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    width:74px;
+    display:flex; flex-direction:column; align-items:center; gap:9px;
+    width:76px;
   }
   .cat-icon{
-    width:52px; height:52px; border-radius:50%;
-    background:var(--bg);
+    width:56px; height:56px; border-radius:50%;
+    background:var(--surface);
     border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
-    font-size:19px;
+    font-size:20px;
   }
-  .cat-label{ font-size:11px; text-align:center; color:var(--ink-soft); line-height:1.3; }
+  .cat-label{ font-size:11px; text-align:center; color:var(--ink-soft); line-height:1.3; font-weight:600; }
 
-  .section-strip{
-    max-width:1180px; margin:0 auto;
-    padding: 44px 20px 64px;
+  .section{
+    max-width:1280px; margin:0 auto;
+    padding: 44px 20px 8px;
   }
-  .section-strip h2{
-    font-family:"Fraunces", Georgia, serif; font-weight:500; font-size:20px;
+  .section-top{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+    margin-bottom:18px;
   }
-  .section-strip p{
-    font-size:13px; color:var(--ink-soft); margin-top:6px; max-width:460px; line-height:1.55;
+  .section h2{
+    font-size:19px; font-weight:800; letter-spacing:-0.005em;
   }
-  .grid-teaser{
-    display:grid; grid-template-columns: repeat(4, 1fr); gap:14px;
-    margin-top:20px;
+  .section-link{ font-size:12px; font-weight:700; color:var(--accent); white-space:nowrap; }
+
+  .insp-grid{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: repeat(2, 190px);
+    gap:12px;
   }
-  @media (max-width:760px){ .grid-teaser{ grid-template-columns: repeat(2, 1fr); } }
-  .teaser-card{
-    border-radius:14px; overflow:hidden;
+  .insp-tile:first-child{ grid-row: span 2; }
+  @media (max-width:820px){
+    .insp-grid{ grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 170px); }
+    .insp-tile:first-child{ grid-column: span 2; grid-row: span 1; }
+  }
+  .insp-tile{
+    position:relative;
+    border-radius:4px; overflow:hidden;
+    background-size:cover; background-position:center;
+  }
+  .insp-tile-tint{
+    position:absolute; inset:0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 45%);
+  }
+  .insp-pill{
+    position:absolute; left:12px; bottom:12px; right:12px;
+    background:#fff; color:#17181b;
+    border-radius:4px;
+    padding:9px 12px;
+    font-size:12.5px; font-weight:700;
+  }
+
+  .promo-strip{
+    max-width:1280px; margin:0 auto;
+    padding: 44px 20px 8px;
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;
+  }
+  @media (max-width:760px){ .promo-strip{ grid-template-columns: repeat(2, 1fr); } }
+  .promo-card{
+    border-radius:4px; overflow:hidden;
     border:1px solid var(--line);
-    height:150px;
-    background: linear-gradient(155deg, var(--line) 0%, var(--bg) 100%);
+    background:var(--surface);
   }
+  .promo-media{
+    height:130px;
+  }
+  .promo-body{ padding:12px 14px 14px; }
+  .promo-name{ font-size:12.5px; font-weight:700; }
+  .promo-price{ font-size:12px; color:var(--ink-soft); margin-top:3px; }
+
+  footer{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    background:var(--surface);
+  }
+  .footer-inner{
+    max-width:1280px; margin:0 auto;
+    padding: 32px 20px;
+    display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between;
+    font-size:12px; color:var(--ink-soft);
+  }
+  .footer-inner strong{ color:var(--ink); }
 </style>
 
-<div class="trust-bar">Gratis Versand ab 79 € · 60 Tage Rückgaberecht</div>
+<div class="trust-bar">
+  <span>Gratis Paketversand ab 79 €</span>
+  <span>24.000 Produkte lagernd</span>
+  <span>60 Tage Rückgaberecht</span>
+</div>
 
 <header>
-  <div class="header-inner">
-    <a class="logo" href="#">connox</a>
-    <nav class="nav">
-      <a href="#">Möbel</a>
-      <a href="#">Beleuchtung</a>
-      <a href="#">Kochen &amp; Servieren</a>
-      <a href="#">Haushalt</a>
-      <a href="#">Outdoor</a>
-      <a href="#">Kinder</a>
-      <a href="#">Tierbedarf</a>
-      <a class="highlight" href="grid.html">Stilwelten</a>
-    </nav>
+  <div class="header-top">
+    <a class="logo" href="index.html">connox</a>
+    <div class="search-bar">🔍 Wonach suchst du?</div>
     <div class="header-icons">
-      <span>Suche</span>
-      <span>Konto</span>
-      <span>Merkliste</span>
-      <span>Warenkorb</span>
+      <span>Kundenservice</span>
+      <span class="ic">♡</span>
+      <span class="ic">👤</span>
+      <span class="ic">🛒</span>
     </div>
   </div>
+  <nav class="header-nav">
+    <a href="#">Produkte</a>
+    <a href="#">Räume</a>
+    <a href="#">Looks</a>
+    <a href="#">Marken</a>
+    <a href="#">Neu</a>
+    <a href="#">Inspiration</a>
+    <div class="divider"></div>
+    <a class="highlight" href="grid.html">Stilwelten</a>
+  </nav>
 </header>
 
 <a class="hero" href="grid.html">
-  <div class="hero-tint"></div>
-  <div class="hero-content">
+  <div class="hero-card">
     <p class="hero-kicker">Neu bei Connox</p>
     <h1 class="hero-title">Deine Design-Welt wartet</h1>
-    <p class="hero-sub">Kuratierte Stilwelten für erlesenen Geschmack – von Bauhaus bis Japandi. Entdecke Produkte mit besonderem Design- und Sammlerwert.</p>
+    <p class="hero-sub">Kuratierte Stilwelten für erlesenen Geschmack – von Bauhaus bis Japandi.</p>
     <span class="hero-cta">Stilwelten entdecken →</span>
   </div>
 </a>
@@ -212,13 +283,72 @@
   <div class="cat"><div class="cat-icon">◒</div><p class="cat-label">Tierbedarf</p></div>
 </div>
 
-<div class="section-strip">
-  <h2>Neuheiten &amp; Trends</h2>
-  <p>Platzhalter-Bereich der echten Connox-Startseite – für den Prototyp nicht weiter ausgestaltet.</p>
-  <div class="grid-teaser">
-    <div class="teaser-card"></div>
-    <div class="teaser-card"></div>
-    <div class="teaser-card"></div>
-    <div class="teaser-card"></div>
+<div class="section">
+  <div class="section-top">
+    <h2>Inspiration</h2>
+    <a class="section-link" href="grid.html">Alle Stilwelten →</a>
+  </div>
+  <div class="insp-grid">
+    <a class="insp-tile" href="detail.html" style="background-image:url(bauhaus.webp);">
+      <div class="insp-tile-tint"></div>
+      <p class="insp-pill">Stil des Monats · Bauhaus</p>
+    </a>
+    <a class="insp-tile" href="midcentury.html" style="background-image:url(midcentury.webp);">
+      <div class="insp-tile-tint"></div>
+      <p class="insp-pill">Mid-Century Modern</p>
+    </a>
+    <a class="insp-tile" href="scandi.html" style="background-image:url(scandi.webp);">
+      <div class="insp-tile-tint"></div>
+      <p class="insp-pill">Scandinavian Functionalism</p>
+    </a>
+    <a class="insp-tile" href="japandi.html" style="background-image:url(japandi.webp);">
+      <div class="insp-tile-tint"></div>
+      <p class="insp-pill">Japandi &amp; Craftsmanship</p>
+    </a>
   </div>
 </div>
+
+<div class="section">
+  <div class="section-top">
+    <h2>Neuheiten &amp; Trends</h2>
+    <a class="section-link" href="#">Alle Neuheiten →</a>
+  </div>
+  <div class="promo-strip">
+    <div class="promo-card">
+      <div class="promo-media" style="background:linear-gradient(155deg,#12172a,#2a3050);"></div>
+      <div class="promo-body">
+        <p class="promo-name">Freischwinger S 35</p>
+        <p class="promo-price">ab 890 €</p>
+      </div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-media" style="background:linear-gradient(155deg,#2b1c14,#4a3222);"></div>
+      <div class="promo-body">
+        <p class="promo-name">Sideboard Nussbaum</p>
+        <p class="promo-price">ab 1.320 €</p>
+      </div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-media" style="background:linear-gradient(155deg,#e7e5e0,#cfcdc6);"></div>
+      <div class="promo-body">
+        <p class="promo-name">Regalsystem Birke</p>
+        <p class="promo-price">ab 890 €</p>
+      </div>
+    </div>
+    <div class="promo-card">
+      <div class="promo-media" style="background:linear-gradient(155deg,#1c231c,#354235);"></div>
+      <div class="promo-body">
+        <p class="promo-name">Loungesessel Naturholz</p>
+        <p class="promo-price">ab 720 €</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span><strong>connox</strong> · Wohndesign, Möbel &amp; Leuchten</span>
+    <span>Gratis Versand ab 79 € · 60 Tage Rückgaberecht</span>
+    <span>Prototyp für Hochschulprojekt CX · TH Köln</span>
+  </div>
+</footer>
