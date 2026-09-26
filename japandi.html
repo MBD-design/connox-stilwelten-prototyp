@@ -458,6 +458,12 @@
   .ref-body{ padding:12px 14px 14px; background:var(--surface); }
   .ref-title{ font-size:12.5px; font-weight:700; }
   .ref-loc{ font-size:11px; color:var(--text-faint); margin-top:2px; }
+
+  .tap-feedback{ animation: tapPulse 550ms ease-out; }
+  @keyframes tapPulse{
+    0%{ box-shadow:0 0 0 0 rgba(138,115,80,0.55); }
+    100%{ box-shadow:0 0 0 14px rgba(138,115,80,0); }
+  }
 </style>
 
 <a class="back" href="grid.html">← Alle Stile</a>
@@ -832,5 +838,36 @@
     portraitIcons.appendChild(chip);
   });
 
+})();
+</script>
+
+<script>
+(function(){
+  function pulse(el){
+    el.classList.remove('tap-feedback');
+    void el.offsetWidth;
+    el.classList.add('tap-feedback');
+    el.addEventListener('animationend', function handler(){
+      el.classList.remove('tap-feedback');
+      el.removeEventListener('animationend', handler);
+    });
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('.consult-btn');
+    if (btn){
+      var original = btn.getAttribute('data-original-label') || btn.textContent;
+      btn.setAttribute('data-original-label', original);
+      pulse(btn);
+      btn.textContent = 'Angefragt \u2713';
+      clearTimeout(btn._resetTimer);
+      btn._resetTimer = setTimeout(function(){ btn.textContent = original; }, 1800);
+      return;
+    }
+    var link = e.target.closest('.hc-link, .brand-link, .icon-chip');
+    if (link){
+      e.preventDefault();
+      pulse(link);
+    }
+  });
 })();
 </script>
